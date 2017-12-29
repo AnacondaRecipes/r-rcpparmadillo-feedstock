@@ -1,4 +1,4 @@
-{% set version = '0.8.100.1.0' %}
+{% set version = '0.8.300.1.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -12,7 +12,7 @@ source:
   url:
     - https://cran.r-project.org/src/contrib/RcppArmadillo_{{ version }}.tar.gz
     - https://cran.r-project.org/src/contrib/Archive/RcppArmadillo/RcppArmadillo_{{ version }}.tar.gz
-  sha256: 97ca929b34d84d99d7cadc3612b544632cdd0c43ed962933a3d47caa27854fa7
+  sha256: 03793702727fabf3f1d4d7602cd8c077343b72eb1b435cec712ffed7b95dcc5c
 
 
   # patches:
@@ -32,9 +32,12 @@ build:
 requirements:
   build:
     - r-base
+    - {{ compiler('c') }}        # [not win]
     - {{ compiler('cxx') }}      # [not win]
     - {{native}}toolchain        # [win]
     - {{posix}}filesystem        # [win]
+    - {{posix}}sed               # [win]
+    - {{posix}}grep              # [win]
     - {{posix}}autoconf
     - {{posix}}automake-wrapper  # [win]
     - {{posix}}automake          # [not win]
@@ -88,8 +91,8 @@ extra:
 # Package: RcppArmadillo
 # Type: Package
 # Title: 'Rcpp' Integration for the 'Armadillo' Templated Linear Algebra Library
-# Version: 0.8.100.1.0
-# Date: 2017-10-10
+# Version: 0.8.300.1.0
+# Date: 2017-12-04
 # Author: Dirk Eddelbuettel, Romain Francois, Doug Bates and Binxiang Ni
 # Maintainer: Dirk Eddelbuettel <edd@debian.org>
 # Description: 'Armadillo' is a templated C++ linear algebra library (by Conrad Sanderson) that aims towards a good balance between speed and ease of use. Integer, floating point and complex numbers are supported, as well as a subset of trigonometric and statistics functions. Various matrix decompositions are provided through optional integration with LAPACK and ATLAS libraries. The 'RcppArmadillo' package includes the header files from the templated 'Armadillo' library. Thus users do not need to install 'Armadillo' itself in order to use 'RcppArmadillo'. From release 7.800.0 on, 'Armadillo' is licensed under Apache License 2; previous releases were under licensed as MPL 2.0 from version 3.800.0 onwards and LGPL-3 prior to that; 'RcppArmadillo' (the 'Rcpp' bindings/bridge to Armadillo) is licensed under the GNU GPL version 2 or later, as is the rest of 'Rcpp'. Note that Armadillo requires a fairly recent compiler; for the g++ family at least version 4.6.* is required.
@@ -102,9 +105,9 @@ extra:
 # URL: http://dirk.eddelbuettel.com/code/rcpp.armadillo.html
 # BugReports: https://github.com/RcppCore/RcppArmadillo/issues
 # NeedsCompilation: yes
-# Packaged: 2017-10-10 10:09:05 UTC; edd
+# Packaged: 2017-12-04 21:30:47.422515 UTC; deddelbuettel
 # Repository: CRAN
-# Date/Publication: 2017-10-11 08:15:00 UTC
+# Date/Publication: 2017-12-06 15:43:34 UTC
 
 # See
 # http://docs.continuum.io/conda/build.html for
