@@ -47,6 +47,7 @@ requirements:
     - r-base
     - {{native}}gcc-libs         # [win]
     - r-rcpp >=0.11.0
+    - libopenblas                # [osx]
 
 test:
   commands:
