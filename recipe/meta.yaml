@@ -1,4 +1,4 @@
-{% set version = '0.8.400.0.0' %}
+{% set version = '0.8.600.0.0' %}
 
 {% set posix = 'm2-' if win else '' %}
 {% set native = 'm2w64-' if win else '' %}
@@ -8,11 +8,10 @@ package:
   version: {{ version|replace("-", "_") }}
 
 source:
-  fn: RcppArmadillo_{{ version }}.tar.gz
   url:
     - {{ cran_mirror }}/src/contrib/RcppArmadillo_{{ version }}.tar.gz
     - {{ cran_mirror }}/src/contrib/Archive/RcppArmadillo/RcppArmadillo_{{ version }}.tar.gz
-  sha256: d917b66aa36779bb7ba6be8fd138ef181febfcd7e0cc093e73867f439c9ec287
+  sha256: 735874afa4d106fecbdc7848f46c0a9a89784dbfbf6ec6d257c67565a9999897
 
 build:
   merge_build_host: True  # [win]
@@ -24,7 +23,7 @@ build:
     - lib/R/lib/
     - lib/
 
-# Suggests: RUnit, Matrix, pkgKitten, reticulate, rmarkdown, knitr, pinp
+# Suggests: RUnit, Matrix, pkgKitten, reticulate, rmarkdown, knitr, pinp, slam
 requirements:
   build:
     - {{ compiler('c') }}        # [not win]
@@ -34,20 +33,25 @@ requirements:
     - {{posix}}sed               # [win]
     - {{posix}}grep              # [win]
     - {{posix}}autoconf
-    - {{posix}}automake-wrapper  # [win]
     - {{posix}}automake          # [not win]
+    - {{posix}}automake-wrapper  # [win]
     - {{posix}}pkg-config
     - {{posix}}make
+    - {{posix}}coreutils         # [win]
+    - {{posix}}zip               # [win]
+    - llvm-openmp >=4.0.1        # [osx]
 
   host:
     - r-base
     - r-rcpp >=0.11.0
+    - libopenblas                # [osx]
+    - llvm-openmp >=4.0.1        # [osx]
 
   run:
     - r-base
     - {{native}}gcc-libs         # [win]
     - r-rcpp >=0.11.0
-    - libopenblas                # [osx]
+    - llvm-openmp >=4.0.1        # [osx]
 
 test:
   commands:
